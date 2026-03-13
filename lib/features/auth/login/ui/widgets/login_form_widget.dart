@@ -1,3 +1,4 @@
+import 'package:exam_app/config/routes/app_routes.dart';
 import 'package:exam_app/core/constants/app_constants.dart';
 import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
@@ -106,7 +107,9 @@ class _LoginFormState extends State<LoginForm> {
                 ),
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.signup);
+                  },
                   child: Text(
                     AppConstants.signUp,
                     style: getBoldStyle(
