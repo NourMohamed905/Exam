@@ -2,7 +2,6 @@ import 'package:exam_app/config/di/di.dart';
 import 'package:exam_app/config/routes/app_routes.dart';
 import 'package:exam_app/config/routes/route_generator.dart';
 import 'package:exam_app/core/theme/app_theme.dart';
-import 'package:exam_app/core/widgets/place_holder_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +25,6 @@ class ExamApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           initialRoute: AppRoutes.login,
           onGenerateRoute: RouteGenerator.generateRoute,
-          home: const PlaceHolderWidget(screenName: "Home"),
         );
       },
     );
