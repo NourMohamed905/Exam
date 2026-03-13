@@ -1,43 +1,43 @@
+import 'package:exam_app/core/resources/style_manager.dart';
+import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 
-class AppTextField extends StatelessWidget {
-  final String label;
-  final String hint;
-  final bool isPassword;
-  final TextEditingController? controller;
+class CustomTextFormField extends StatelessWidget {
+  final String hintText;
+  final String labelText;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
+  final bool isPassword;
+  final TextInputType keyboardType;
+  final Widget? suffixIcon;
 
-  const AppTextField({
+  const CustomTextFormField({
     super.key,
-    required this.label,
-    required this.hint,
-    this.isPassword = false,
-    this.controller,
+    required this.hintText,
+    required this.labelText,
     this.validator,
+    this.controller,
+    this.onChanged,
+    this.isPassword = false,
+    this.keyboardType = TextInputType.text,
+    this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          obscureText: isPassword,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(color: AppColors.darkGray),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-          ),
-        ),
-      ],
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      obscureText: isPassword,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      style: getRegularStyle(color: AppColors.black, fontSize: 16),
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        suffixIcon: suffixIcon,
+      ),
     );
   }
 }
