@@ -46,4 +46,6 @@ class AppConstants {
   static const String fieldRequired = "This field is required";
 
   static const String loginSuccess = "Login successful";
+  static const String passwordRequirement6Chars =
+      "Password must not be empty and must contain 6 characters with upper case letter and one number at least ";
 }
