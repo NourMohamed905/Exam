@@ -36,7 +36,10 @@ class LoginScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: CustomAppBar(title: AppConstants.login),
+          appBar: CustomAppBar(
+            title: AppConstants.login,
+            showBackButton: false,
+          ),
           body: const LoginForm(),
         ),
       ),

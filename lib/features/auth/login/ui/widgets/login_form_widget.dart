@@ -67,7 +67,9 @@ class _LoginFormState extends State<LoginForm> {
                     ),
 
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                      },
                       child: Text(
                         AppConstants.forgotPassword,
                         style: getTextWithLine(),
