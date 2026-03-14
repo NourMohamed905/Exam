@@ -29,6 +29,6 @@ abstract class AuthApi {
   Future<HttpResponse> forgotPassword(@Body() Map<String, dynamic> body);
   @POST(AppEndPoints.verifyResetCode)
   Future<HttpResponse> verifyResetCode(@Body() Map<String, dynamic> body);
-  @POST(AppEndPoints.resetPassword)
+  @PUT(AppEndPoints.resetPassword)
   Future<HttpResponse> resetPassword(@Body() Map<String, dynamic> body);
 }

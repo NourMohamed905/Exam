@@ -241,7 +241,7 @@ class _AuthApi implements AuthApi {
     final _data = <String, dynamic>{};
     _data.addAll(body);
     final _options = _setStreamType<HttpResponse<dynamic>>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
+      Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
             'https://exam.elevateegy.com/api/v1/auth/resetPassword',
