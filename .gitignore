@@ -33,6 +33,11 @@ migrate_working_dir/
 /build/
 /coverage/
 
+**/generated_plugin_registrant.cc
+**/generated_plugin_registrant.h
+**/generated_plugins.cmake
+**/GeneratedPluginRegistrant.swift
+
 # Symbolication related
 app.*.symbols
 
