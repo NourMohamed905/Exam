@@ -1,7 +1,8 @@
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
+import 'package:exam_app/features/auth/forget_password/domain/entity/request/forget_pass_request.dart';
 import 'package:exam_app/features/auth/forget_password/domain/entity/request/verify_code_request.dart';
 import 'package:exam_app/features/auth/forget_password/ui/cubit/forget_pass_intint.dart';
 import 'package:exam_app/features/auth/forget_password/ui/cubit/forget_pass_state.dart';
@@ -24,7 +25,7 @@ class OtpStep extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            AppConstants.emailVerification,
+            AuthConstants.emailVerification,
             style: getBoldStyle(
               color: AppColors.black,
               fontSize: AppSize.s18.sp,
@@ -32,7 +33,7 @@ class OtpStep extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.h),
           Text(
-            AppConstants.pleaseEnterCode,
+            AuthConstants.pleaseEnterCode,
             style: getRegularStyle(
               color: AppColors.grey,
               fontSize: AppSize.s14.sp,
@@ -63,16 +64,22 @@ class OtpStep extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppConstants.didntReceiveCode,
+                AuthConstants.didntReceiveCode,
                 style: getRegularStyle(
                   color: AppColors.black,
                   fontSize: AppSize.s15.sp,
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.doIntent(
+                    SendEmailIntent(
+                      ForgetPasswordRequest(email: viewModel.email),
+                    ),
+                  );
+                },
                 child: Text(
-                  AppConstants.resend,
+                  AuthConstants.resend,
                   style: getRegularStyle(
                     color: AppColors.primaryBlue,
                     fontSize: AppSize.s15.sp,

@@ -1,4 +1,4 @@
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
@@ -29,7 +29,7 @@ class EmailStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            AppConstants.forgetPassword,
+            AuthConstants.forgetPassword,
             style: getBoldStyle(
               color: AppColors.black,
               fontSize: AppSize.s18.sp,
@@ -37,7 +37,7 @@ class EmailStep extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.h),
           Text(
-            AppConstants.pleaseEnterYourEmail,
+            AuthConstants.pleaseEnterYourEmail,
             style: getRegularStyle(
               color: AppColors.grey,
               fontSize: AppSize.s14.sp,
@@ -48,8 +48,8 @@ class EmailStep extends StatelessWidget {
           TextField(
             controller: controller,
             decoration: InputDecoration(
-              labelText: AppConstants.email,
-              hintText: AppConstants.enterYourEmail,
+              labelText: AuthConstants.email,
+              hintText: AuthConstants.enterYourEmail,
               errorText: state.forgetPasswordState.errorMessage,
             ),
           ),
@@ -68,7 +68,7 @@ class EmailStep extends StatelessWidget {
                     width: AppSize.s20.w,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Text(AppConstants.continueText),
+                : Text(AuthConstants.continueText),
           ),
         ],
       ),
