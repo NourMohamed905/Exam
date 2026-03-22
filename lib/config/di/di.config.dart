@@ -40,6 +40,16 @@ import '../../features/auth/login/domain/repository/login_repo_contract.dart'
     as _i359;
 import '../../features/auth/login/domain/usecase/login_use_case.dart' as _i79;
 import '../../features/auth/login/ui/cubit/login_view_model.dart' as _i785;
+import '../../features/auth/signup/data/data_source/signup_remote_datasource.dart'
+    as _i188;
+import '../../features/auth/signup/data/data_source/signup_remote_datasource_impl.dart'
+    as _i893;
+import '../../features/auth/signup/data/repo/signup_repo_impl.dart' as _i767;
+import '../../features/auth/signup/domain/repository/signup_repository.dart'
+    as _i192;
+import '../../features/auth/signup/domain/usecase/signup_use_case.dart'
+    as _i685;
+import '../../features/auth/signup/ui/cubit/signup_view_model.dart' as _i60;
 import '../data_source_execution.dart' as _i539;
 import '../dio/dio_module.dart' as _i977;
 
@@ -68,11 +78,6 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i853.LoginRemoteDataSourceContract>(),
       ),
     );
-    gh.factory<_i192.SignupRepoContract>(
-      () => _i767.SignupRepoImpl(
-        remoteDataSource: gh<_i188.SignupRemoteDataSourceContract>(),
-      ),
-    );
     gh.factory<_i79.LoginUseCase>(
       () => _i79.LoginUseCase(contract: gh<_i359.LoginRepoContract>()),
     );
@@ -88,10 +93,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i140.LocalStorageService>(),
       ),
     );
+    gh.factory<_i188.SignupRemoteDataSourceContract>(
+      () => _i893.SignupRemoteDatasourceImpl(gh<_i506.AuthApi>()),
+    );
     gh.factory<_i171.ForgetPassRepoContract>(
       () => _i813.ForgetRepoImpl(
         remoteDataSource: gh<_i780.ForgetRemoteDataSourceContract>(),
       ),
+    );
+    gh.factory<_i192.SignupRepoContract>(
+      () => _i767.SignupRepoImpl(
+        remoteDataSource: gh<_i188.SignupRemoteDataSourceContract>(),
+      ),
+    );
+    gh.factory<_i685.SignupUseCase>(
+      () => _i685.SignupUseCase(contract: gh<_i192.SignupRepoContract>()),
     );
     gh.factory<_i490.ForgetPasswordUseCase>(
       () => _i490.ForgetPasswordUseCase(gh<_i171.ForgetPassRepoContract>()),
@@ -101,6 +117,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i590.VerifyCodeUseCase>(
       () => _i590.VerifyCodeUseCase(gh<_i171.ForgetPassRepoContract>()),
+    );
+    gh.factory<_i60.SignupViewModel>(
+      () => _i60.SignupViewModel(gh<_i685.SignupUseCase>()),
     );
     gh.factory<_i448.ForgetPasswordViewModel>(
       () => _i448.ForgetPasswordViewModel(
