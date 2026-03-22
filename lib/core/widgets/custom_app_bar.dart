@@ -7,13 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBackTap;
-  final bool showBackButton; // إضافة هذا السطر
-
+  final bool showBackButton;
   const CustomAppBar({
     super.key,
     required this.title,
     this.onBackTap,
-    this.showBackButton = true, // القيمة الافتراضية تظهر الزرار
+    this.showBackButton = true,
   });
 
   @override
@@ -21,7 +20,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: AppColors.white,
       elevation: 0,
-      // التحكم في ظهور الزرار
       automaticallyImplyLeading: showBackButton,
       leading: showBackButton
           ? IconButton(
@@ -32,15 +30,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               onPressed: onBackTap ?? () => Navigator.pop(context),
             )
-          : null, // لو false مش هيعرض حاجة
+          : null,
       title: Text(
         title,
         style: getMediumStyle(color: AppColors.black, fontSize: AppSize.s18.sp),
       ),
       centerTitle: false,
-      titleSpacing: showBackButton
-          ? 0
-          : AppPadding.p16, // ضبط المسافة لو مفيش زرار
+      titleSpacing: showBackButton ? 0 : AppPadding.p16,
     );
   }
 

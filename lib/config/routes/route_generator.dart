@@ -1,6 +1,7 @@
 import 'package:exam_app/core/widgets/place_holder_widget.dart';
 import 'package:exam_app/features/auth/forget_password/ui/screen/forget_pass_screen.dart';
 import 'package:exam_app/features/auth/login/ui/screen/login_screen.dart';
+import 'package:exam_app/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_routes.dart';
@@ -32,9 +33,7 @@ class RouteGenerator {
               const PlaceHolderWidget(screenName: 'Reset Password Screen'),
         );
       case AppRoutes.home:
-        return MaterialPageRoute(
-          builder: (_) => const PlaceHolderWidget(screenName: 'Home Screen'),
-        );
+        return MaterialPageRoute(builder: (_) => HomeScreen());
 
       default:
         return MaterialPageRoute(

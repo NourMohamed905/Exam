@@ -26,8 +26,6 @@ class AppTheme {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      labelStyle: getMediumStyle(color: AppColors.black, fontSize: 16),
-      floatingLabelStyle: getMediumStyle(color: AppColors.black, fontSize: 14),
 
       hintStyle: getRegularStyle(color: AppColors.lightGray, fontSize: 14),
       errorStyle: getRegularStyle(color: AppColors.errorRed, fontSize: 12),
