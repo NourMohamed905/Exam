@@ -111,7 +111,9 @@ class _LoginFormState extends State<LoginForm> {
                 ),
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.signup);
+                  },
                   child: Text(
                     AuthConstants.signUp,
                     style: getBoldStyle(

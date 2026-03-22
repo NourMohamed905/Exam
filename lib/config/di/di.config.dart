@@ -68,6 +68,11 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i853.LoginRemoteDataSourceContract>(),
       ),
     );
+    gh.factory<_i192.SignupRepoContract>(
+      () => _i767.SignupRepoImpl(
+        remoteDataSource: gh<_i188.SignupRemoteDataSourceContract>(),
+      ),
+    );
     gh.factory<_i79.LoginUseCase>(
       () => _i79.LoginUseCase(contract: gh<_i359.LoginRepoContract>()),
     );

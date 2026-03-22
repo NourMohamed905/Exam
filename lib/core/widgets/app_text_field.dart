@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool isPassword;
   final TextInputType keyboardType;
   final Widget? suffixIcon;
+  final AutovalidateMode? autovalidateMode;
 
   const CustomTextFormField({
     super.key,
@@ -22,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.suffixIcon,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
   });
 
   @override
@@ -29,7 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: autovalidateMode,
       obscureText: isPassword,
       keyboardType: keyboardType,
       onChanged: onChanged,
