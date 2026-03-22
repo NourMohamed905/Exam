@@ -1,5 +1,5 @@
 import 'package:exam_app/config/base_response/base_response.dart';
-import 'package:exam_app/core/storage/auth_local_storage.dart';
+import 'package:exam_app/core/storage/local_storage.dart';
 import 'package:exam_app/features/auth/login/domain/entity/login_request.dart';
 import 'package:exam_app/features/auth/login/domain/entity/login_response.dart';
 import 'package:exam_app/features/auth/login/domain/usecase/login_use_case.dart';
@@ -11,7 +11,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class LoginViewModel extends Cubit<LoginState> {
   final LoginUseCase useCase;
-  final AuthLocalStorage storage;
+  final LocalStorageService storage;
 
   LoginViewModel(this.useCase, this.storage) : super(const LoginState());
 
@@ -55,14 +55,17 @@ class LoginViewModel extends Cubit<LoginState> {
 
     switch (response) {
       case SuccessBaseResponse<LoginResponse>():
-        if (state.rememberMe) {
-          await storage.saveToken(response.data.token ?? "");
+        final token = response.data.token;
 
-          await storage.saveRememberMe(true);
+        if (state.rememberMe && token != null && token.isNotEmpty) {
+          await storage.saveToken(token);
+        } else {
+          await storage.clear();
         }
 
-        emit(state.copyWith(isLoading: false, user: response.data.user));
+        await storage.saveRememberMe(state.rememberMe);
 
+        emit(state.copyWith(isLoading: false, user: response.data.user));
         break;
 
       case ErrorBaseResponse<LoginResponse>():

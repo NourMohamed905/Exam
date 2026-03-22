@@ -28,6 +28,7 @@ class _LoginTextFieldsState extends State<LoginTextFields> {
         CustomTextFormField(
           labelText: AppConstants.email,
           hintText: AppConstants.enterYourEmail,
+          keyboardType: TextInputType.emailAddress,
           validator: AppValidators.validateEmail,
           onChanged: (value) {
             vm.doIntent(EmailChanged(value));
@@ -40,6 +41,7 @@ class _LoginTextFieldsState extends State<LoginTextFields> {
         CustomTextFormField(
           labelText: AppConstants.password,
           hintText: AppConstants.enterYourPassword,
+          keyboardType: TextInputType.visiblePassword,
           validator: AppValidators.validatePassword,
           isPassword: !_isPasswordVisible,
           onChanged: (value) {

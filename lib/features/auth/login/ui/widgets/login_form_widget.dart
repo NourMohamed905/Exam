@@ -85,11 +85,13 @@ class _LoginFormState extends State<LoginForm> {
                 return CustomButton(
                   text: AppConstants.login,
                   isLoading: state.isLoading,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      vm.doIntent(LoginPressed());
-                    }
-                  },
+                  onPressed: state.isFormValid
+                      ? () {
+                          if (_formKey.currentState!.validate()) {
+                            vm.doIntent(LoginPressed());
+                          }
+                        }
+                      : null,
                 );
               },
             ),
