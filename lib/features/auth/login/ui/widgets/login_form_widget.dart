@@ -1,5 +1,5 @@
 import 'package:exam_app/config/routes/app_routes.dart';
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
                         ),
 
                         Text(
-                          AppConstants.rememberMe,
+                          AuthConstants.rememberMe,
                           style: getMediumStyle(
                             color: AppColors.black,
                             fontSize: 13,
@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                         Navigator.pushNamed(context, AppRoutes.forgotPassword);
                       },
                       child: Text(
-                        AppConstants.forgotPassword,
+                        AuthConstants.forgotPassword,
                         style: getTextWithLine(),
                       ),
                     ),
@@ -86,13 +86,15 @@ class _LoginFormState extends State<LoginForm> {
             BlocBuilder<LoginViewModel, LoginState>(
               builder: (context, state) {
                 return CustomButton(
-                  text: AppConstants.login,
+                  text: AuthConstants.login,
                   isLoading: state.isLoading,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      vm.doIntent(LoginPressed());
-                    }
-                  },
+                  onPressed: state.isFormValid
+                      ? () {
+                          if (_formKey.currentState!.validate()) {
+                            vm.doIntent(LoginPressed());
+                          }
+                        }
+                      : null,
                 );
               },
             ),
@@ -104,14 +106,14 @@ class _LoginFormState extends State<LoginForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  AppConstants.dontHaveAnAccount,
+                  AuthConstants.dontHaveAnAccount,
                   style: getRegularStyle(color: AppColors.black, fontSize: 14),
                 ),
 
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    AppConstants.signUp,
+                    AuthConstants.signUp,
                     style: getBoldStyle(
                       color: AppColors.primaryBlue,
                       fontSize: 14,
