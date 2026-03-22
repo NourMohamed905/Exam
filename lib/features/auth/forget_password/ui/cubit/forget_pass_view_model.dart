@@ -4,6 +4,7 @@ import 'package:exam_app/features/auth/forget_password/domain/entity/request/res
 import 'package:exam_app/features/auth/forget_password/domain/entity/request/verify_code_request.dart';
 import 'package:exam_app/features/auth/forget_password/domain/entity/response/forget_pass_response.dart';
 import 'package:exam_app/features/auth/forget_password/domain/entity/response/reset_pass_response.dart';
+import 'package:exam_app/features/auth/forget_password/domain/entity/response/verify_code_response.dart';
 import 'package:exam_app/features/auth/forget_password/domain/usecase/forget_pass_usecase.dart';
 import 'package:exam_app/features/auth/forget_password/domain/usecase/reset_pass_usecase.dart';
 import 'package:exam_app/features/auth/forget_password/domain/usecase/verify_code_usecase.dart';
@@ -24,6 +25,8 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
     this._resetPasswordUseCase,
   ) : super(ForgetPasswordState());
 
+  String email = "";
+
   void doIntent(ForgetPasswordIntent intent) {
     if (intent is SendEmailIntent) {
       _sendEmail(intent.request);
@@ -35,6 +38,8 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
   }
 
   Future<void> _sendEmail(ForgetPasswordRequest request) async {
+    email = request.email ?? "";
+
     emit(
       state.copyWith(
         forgetPasswordStateParam: state.forgetPasswordState.copyWith(
@@ -49,7 +54,7 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
     if (response is SuccessBaseResponse<ForgetPasswordResponse>) {
       emit(
         state.copyWith(
-          currentStepParam: 1, // go to verify code step
+          currentStepParam: 1,
           forgetPasswordStateParam: state.forgetPasswordState.copyWith(
             isLoadingParam: false,
             dataParam: response.data,
@@ -80,10 +85,10 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
 
     final response = await _verifyCodeUseCase.call(request);
 
-    if (response is SuccessBaseResponse<ForgetPasswordResponse>) {
+    if (response is SuccessBaseResponse<VerifyCodeResponse>) {
       emit(
         state.copyWith(
-          currentStepParam: 2, // go to reset password step
+          currentStepParam: 2,
           verifyCodeStateParam: state.verifyCodeState.copyWith(
             isLoadingParam: false,
             dataParam: response.data,
@@ -112,11 +117,17 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
       ),
     );
 
-    final response = await _resetPasswordUseCase.call(request);
+    final response = await _resetPasswordUseCase.call(
+      ResetPasswordRequest(
+        email: request.email,
+        newPassword: request.newPassword,
+      ),
+    );
 
     if (response is SuccessBaseResponse<ResetPasswordResponse>) {
       emit(
         state.copyWith(
+          currentStepParam: 3,
           resetPasswordStateParam: state.resetPasswordState.copyWith(
             isLoadingParam: false,
             dataParam: response.data,
