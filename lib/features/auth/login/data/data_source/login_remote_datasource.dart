@@ -1,6 +1,7 @@
-import 'package:exam_app/core/models/auth_response_dto.dart';
+import 'package:exam_app/config/base_response/base_response.dart';
 import 'package:exam_app/features/auth/login/data/model/login_request_dto.dart';
+import 'package:exam_app/features/auth/login/domain/entity/login_response.dart';
 
 abstract class LoginRemoteDataSourceContract {
-  Future<AuthResponseDTO> login(LoginRequestDTO loginRequest);
+  Future<BaseResponse<LoginResponse>> login(LoginRequestDTO loginRequest);
 }

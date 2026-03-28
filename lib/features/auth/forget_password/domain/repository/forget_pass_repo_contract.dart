@@ -4,14 +4,17 @@ import 'package:exam_app/features/auth/forget_password/domain/entity/request/res
 import 'package:exam_app/features/auth/forget_password/domain/entity/request/verify_code_request.dart';
 import 'package:exam_app/features/auth/forget_password/domain/entity/response/forget_pass_response.dart';
 import 'package:exam_app/features/auth/forget_password/domain/entity/response/reset_pass_response.dart';
+import 'package:exam_app/features/auth/forget_password/domain/entity/response/verify_code_response.dart';
 
 abstract class ForgetPassRepoContract {
   Future<BaseResponse<ForgetPasswordResponse>> forgetPassword(
     ForgetPasswordRequest request,
   );
-  Future<BaseResponse<ForgetPasswordResponse>> verifyCode(
+
+  Future<BaseResponse<VerifyCodeResponse>> verifyCode(
     VerifyCodeRequest request,
   );
+
   Future<BaseResponse<ResetPasswordResponse>> resetPassword(
     ResetPasswordRequest request,
   );

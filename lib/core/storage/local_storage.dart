@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class AuthLocalStorage {
+class LocalStorageService {
   final _storage = const FlutterSecureStorage();
 
   static const tokenKey = "token";
@@ -27,5 +27,9 @@ class AuthLocalStorage {
 
   Future<void> clear() async {
     await _storage.deleteAll();
+  }
+
+  Future<void> logout() async {
+    await clear();
   }
 }

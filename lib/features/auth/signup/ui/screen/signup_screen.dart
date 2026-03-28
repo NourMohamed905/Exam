@@ -1,5 +1,5 @@
 import 'package:exam_app/config/di/di.dart';
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:exam_app/core/widgets/custom_app_bar.dart';
 import 'package:exam_app/features/auth/signup/ui/cubit/signup_state.dart';
@@ -38,9 +38,7 @@ class SignupScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: CustomAppBar(
-            title: AppConstants.signUp,
-          ),
+          appBar: CustomAppBar(title: AuthConstants.signUp),
           body: const SignupForm(),
         ),
       ),

@@ -1,17 +1,27 @@
 import 'package:exam_app/config/di/di.dart';
 import 'package:exam_app/config/routes/app_routes.dart';
 import 'package:exam_app/config/routes/route_generator.dart';
+import 'package:exam_app/core/storage/local_storage.dart';
 import 'package:exam_app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
   configureDependencies();
-  runApp(const ExamApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final storage = LocalStorageService();
+
+  final token = await storage.getToken();
+  final remember = await storage.getRememberMe();
+
+  final isLoggedIn = remember && token != null && token.isNotEmpty;
+  runApp(ExamApp(isLoggedIn: isLoggedIn));
 }
 
 class ExamApp extends StatelessWidget {
-  const ExamApp({super.key});
+  final bool isLoggedIn;
+  const ExamApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +33,7 @@ class ExamApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          initialRoute: AppRoutes.login,
+          initialRoute: isLoggedIn ? AppRoutes.home : AppRoutes.login,
           onGenerateRoute: RouteGenerator.generateRoute,
         );
       },

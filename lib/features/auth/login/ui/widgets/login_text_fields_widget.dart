@@ -1,4 +1,4 @@
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:exam_app/core/widgets/app_text_field.dart';
 import 'package:exam_app/core/widgets/app_validators.dart';
@@ -26,8 +26,9 @@ class _LoginTextFieldsState extends State<LoginTextFields> {
       children: [
         /// email
         CustomTextFormField(
-          labelText: AppConstants.email,
-          hintText: AppConstants.enterYourEmail,
+          labelText: AuthConstants.email,
+          hintText: AuthConstants.enterYourEmail,
+          keyboardType: TextInputType.emailAddress,
           validator: AppValidators.validateEmail,
           onChanged: (value) {
             vm.doIntent(EmailChanged(value));
@@ -38,8 +39,9 @@ class _LoginTextFieldsState extends State<LoginTextFields> {
 
         /// password
         CustomTextFormField(
-          labelText: AppConstants.password,
-          hintText: AppConstants.enterYourPassword,
+          labelText: AuthConstants.password,
+          hintText: AuthConstants.enterYourPassword,
+          keyboardType: TextInputType.visiblePassword,
           validator: AppValidators.validatePassword,
           isPassword: !_isPasswordVisible,
           onChanged: (value) {
