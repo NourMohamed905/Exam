@@ -1,6 +1,6 @@
 import 'package:exam_app/config/di/di.dart';
-import 'package:exam_app/core/constants/app_constants.dart';
-import 'package:exam_app/core/theme/app_colors.dart';
+import 'package:exam_app/config/routes/app_routes.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/widgets/custom_app_bar.dart';
 import 'package:exam_app/features/auth/login/ui/cubit/login_state.dart';
 import 'package:exam_app/features/auth/login/ui/cubit/login_view_model.dart';
@@ -18,18 +18,26 @@ class LoginScreen extends StatelessWidget {
       child: BlocListener<LoginViewModel, LoginState>(
         listener: (context, state) {
           if (state.user != null) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              AppRoutes.home,
+              (route) => false,
+            );
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 backgroundColor: Colors.green,
-                content: Text(AppConstants.loginSuccess),
+                content: Text(AuthConstants.loginSuccess),
               ),
             );
+
+            return;
           }
 
-          if (state.errorMessage != null) {
+          if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                backgroundColor: AppColors.errorRed,
+                backgroundColor: Colors.red,
                 content: Text(state.errorMessage!),
               ),
             );
@@ -37,10 +45,10 @@ class LoginScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: CustomAppBar(
-            title: AppConstants.login,
+            title: AuthConstants.login,
             showBackButton: false,
           ),
-          body: const LoginForm(),
+          body: SingleChildScrollView(child: const LoginForm()),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:exam_app/core/constants/app_constants.dart';
+import 'package:exam_app/core/constants/auth_constants.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:exam_app/core/widgets/app_text_field.dart';
 import 'package:exam_app/core/widgets/primary_button.dart';
@@ -30,12 +30,12 @@ class _SignupFormState extends State<SignupForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomTextFormField(
-              hintText: AppConstants.enterYourUsername,
-              labelText: AppConstants.username,
+              hintText: AuthConstants.enterYourUsername,
+              labelText: AuthConstants.username,
               onChanged: (value) => viewModel.doIntent(UserNameChanged(value)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppConstants.fieldRequired;
+                  return AuthConstants.fieldRequired;
                 }
                 return null;
               },
@@ -45,8 +45,8 @@ class _SignupFormState extends State<SignupForm> {
               children: [
                 Expanded(
                   child: CustomTextFormField(
-                    hintText: AppConstants.enterFirstName,
-                    labelText: AppConstants.firstName,
+                    hintText: AuthConstants.enterFirstName,
+                    labelText: AuthConstants.firstName,
                     onChanged: (value) =>
                         viewModel.doIntent(FirstNameChanged(value)),
                   ),
@@ -54,8 +54,8 @@ class _SignupFormState extends State<SignupForm> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: CustomTextFormField(
-                    hintText: AppConstants.enterLastName,
-                    labelText: AppConstants.lastName,
+                    hintText: AuthConstants.enterLastName,
+                    labelText: AuthConstants.lastName,
                     onChanged: (value) =>
                         viewModel.doIntent(LastNameChanged(value)),
                   ),
@@ -64,17 +64,17 @@ class _SignupFormState extends State<SignupForm> {
             ),
             const SizedBox(height: 16),
             CustomTextFormField(
-              hintText: AppConstants.enterYourEmail,
-              labelText: AppConstants.email,
+              hintText: AuthConstants.enterYourEmail,
+              labelText: AuthConstants.email,
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) => viewModel.doIntent(EmailChanged(value)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppConstants.fieldRequired;
+                  return AuthConstants.fieldRequired;
                 }
                 const emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
                 if (!RegExp(emailPattern).hasMatch(value)) {
-                  return AppConstants.emailIsNotValid;
+                  return AuthConstants.emailIsNotValid;
                 }
                 return null;
               },
@@ -84,14 +84,14 @@ class _SignupFormState extends State<SignupForm> {
               children: [
                 Expanded(
                   child: CustomTextFormField(
-                    hintText: AppConstants.enterPassword,
-                    labelText: AppConstants.password,
+                    hintText: AuthConstants.enterYourPassword,
+                    labelText: AuthConstants.password,
                     isPassword: true,
                     onChanged: (value) =>
                         viewModel.doIntent(PasswordChanged(value)),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return AppConstants.fieldRequired;
+                        return AuthConstants.fieldRequired;
                       }
                       return null;
                     },
@@ -100,17 +100,17 @@ class _SignupFormState extends State<SignupForm> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: CustomTextFormField(
-                    hintText: AppConstants.confirmPassword,
-                    labelText: AppConstants.confirmPassword,
+                    hintText: AuthConstants.confirmPassword,
+                    labelText: AuthConstants.confirmPassword,
                     isPassword: true,
                     onChanged: (value) =>
                         viewModel.doIntent(ConfirmPasswordChanged(value)),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return AppConstants.fieldRequired;
+                        return AuthConstants.fieldRequired;
                       }
                       if (value != viewModel.password) {
-                        return AppConstants.passwordNotMatched;
+                        return AuthConstants.passwordNotMatched;
                       }
                       return null;
                     },
@@ -120,13 +120,13 @@ class _SignupFormState extends State<SignupForm> {
             ),
             const SizedBox(height: 16),
             CustomTextFormField(
-              hintText: AppConstants.enterPhoneNumber,
-              labelText: AppConstants.phoneNumber,
+              hintText: AuthConstants.enterPhoneNumber,
+              labelText: AuthConstants.phoneNumber,
               keyboardType: TextInputType.phone,
               onChanged: (value) => viewModel.doIntent(PhoneChanged(value)),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppConstants.fieldRequired;
+                  return AuthConstants.fieldRequired;
                 }
                 return null;
               },
@@ -138,7 +138,7 @@ class _SignupFormState extends State<SignupForm> {
                   previous.isFormValid != current.isFormValid,
               builder: (context, state) {
                 return CustomButton(
-                  text: AppConstants.signUp,
+                  text: AuthConstants.signUp,
                   isLoading: state.isLoading,
                   onPressed: state.isFormValid
                       ? () {
@@ -154,11 +154,11 @@ class _SignupFormState extends State<SignupForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(AppConstants.haveAnAccount),
+                const Text(AuthConstants.haveAnAccount),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
-                    AppConstants.login,
+                    AuthConstants.login,
                     style: TextStyle(
                       color: AppColors.primaryBlue,
                       fontWeight: FontWeight.bold,

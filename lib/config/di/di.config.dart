@@ -10,12 +10,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
-import 'package:flutter/material.dart' as _i409;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../api/auth/auth_api.dart' as _i506;
-import '../../core/storage/auth_local_storage.dart' as _i449;
+import '../../core/storage/local_storage.dart' as _i140;
 import '../../features/auth/forget_password/data/data_source/forget_remote_datasource.dart'
     as _i780;
 import '../../features/auth/forget_password/data/data_source/forget_remote_datasource_impl.dart'
@@ -32,8 +31,6 @@ import '../../features/auth/forget_password/domain/usecase/verify_code_usecase.d
     as _i590;
 import '../../features/auth/forget_password/ui/cubit/forget_pass_view_model.dart'
     as _i448;
-import '../../features/auth/forget_password/ui/screen/forget_pass_screen.dart'
-    as _i328;
 import '../../features/auth/login/data/data_source/login_remote_datasource.dart'
     as _i853;
 import '../../features/auth/login/data/data_source/login_remote_datasource_impl.dart'
@@ -53,6 +50,7 @@ import '../../features/auth/signup/domain/repository/signup_repository.dart'
 import '../../features/auth/signup/domain/usecase/signup_use_case.dart'
     as _i685;
 import '../../features/auth/signup/ui/cubit/signup_view_model.dart' as _i60;
+import '../data_source_execution.dart' as _i539;
 import '../dio/dio_module.dart' as _i977;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -63,21 +61,44 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
+    gh.factory<_i539.DataSourceExecution>(() => _i539.DataSourceExecution());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
-    gh.lazySingleton<_i449.AuthLocalStorage>(() => _i449.AuthLocalStorage());
+    gh.lazySingleton<_i140.LocalStorageService>(
+      () => _i140.LocalStorageService(),
+    );
     gh.factory<_i506.AuthApi>(() => _i506.AuthApi(gh<_i361.Dio>()));
-    gh.factory<_i328.ForgetPasswordScreen>(
-      () => _i328.ForgetPasswordScreen(key: gh<_i409.Key>()),
-    );
-    gh.factory<_i780.ForgetRemoteDataSourceContract>(
-      () => _i570.ForgetRemoteDatasourceImpl(authApi: gh<_i506.AuthApi>()),
-    );
     gh.factory<_i853.LoginRemoteDataSourceContract>(
-      () => _i660.LoginRemoteDatasourceImpl(gh<_i506.AuthApi>()),
+      () => _i660.LoginRemoteDatasourceImpl(
+        gh<_i506.AuthApi>(),
+        gh<_i539.DataSourceExecution>(),
+      ),
     );
     gh.factory<_i359.LoginRepoContract>(
       () => _i1001.LoginRepoImpl(
         remoteDataSource: gh<_i853.LoginRemoteDataSourceContract>(),
+      ),
+    );
+    gh.factory<_i79.LoginUseCase>(
+      () => _i79.LoginUseCase(contract: gh<_i359.LoginRepoContract>()),
+    );
+    gh.factory<_i780.ForgetRemoteDataSourceContract>(
+      () => _i570.ForgetRemoteDatasourceImpl(
+        authApi: gh<_i506.AuthApi>(),
+        executor: gh<_i539.DataSourceExecution>(),
+      ),
+    );
+    gh.factory<_i785.LoginViewModel>(
+      () => _i785.LoginViewModel(
+        gh<_i79.LoginUseCase>(),
+        gh<_i140.LocalStorageService>(),
+      ),
+    );
+    gh.factory<_i188.SignupRemoteDataSourceContract>(
+      () => _i893.SignupRemoteDatasourceImpl(gh<_i506.AuthApi>()),
+    );
+    gh.factory<_i171.ForgetPassRepoContract>(
+      () => _i813.ForgetRepoImpl(
+        remoteDataSource: gh<_i780.ForgetRemoteDataSourceContract>(),
       ),
     );
     gh.factory<_i192.SignupRepoContract>(
@@ -85,13 +106,26 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i188.SignupRemoteDataSourceContract>(),
       ),
     );
-    gh.factory<_i79.LoginUseCase>(
-      () => _i79.LoginUseCase(contract: gh<_i359.LoginRepoContract>()),
+    gh.factory<_i685.SignupUseCase>(
+      () => _i685.SignupUseCase(contract: gh<_i192.SignupRepoContract>()),
     );
-    gh.factory<_i785.LoginViewModel>(
-      () => _i785.LoginViewModel(
-        gh<_i79.LoginUseCase>(),
-        gh<_i449.AuthLocalStorage>(),
+    gh.factory<_i490.ForgetPasswordUseCase>(
+      () => _i490.ForgetPasswordUseCase(gh<_i171.ForgetPassRepoContract>()),
+    );
+    gh.factory<_i865.ResetPasswordUseCase>(
+      () => _i865.ResetPasswordUseCase(gh<_i171.ForgetPassRepoContract>()),
+    );
+    gh.factory<_i590.VerifyCodeUseCase>(
+      () => _i590.VerifyCodeUseCase(gh<_i171.ForgetPassRepoContract>()),
+    );
+    gh.factory<_i60.SignupViewModel>(
+      () => _i60.SignupViewModel(gh<_i685.SignupUseCase>()),
+    );
+    gh.factory<_i448.ForgetPasswordViewModel>(
+      () => _i448.ForgetPasswordViewModel(
+        gh<_i490.ForgetPasswordUseCase>(),
+        gh<_i590.VerifyCodeUseCase>(),
+        gh<_i865.ResetPasswordUseCase>(),
       ),
     );
     return this;
