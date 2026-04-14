@@ -1,10 +1,12 @@
-import 'package:exam_app/core/widgets/place_holder_widget.dart';
 import 'package:exam_app/features/auth/forget_password/ui/screen/forget_pass_screen.dart';
 import 'package:exam_app/features/auth/login/ui/screen/login_screen.dart';
-import 'package:exam_app/features/home/home_screen.dart';
+import 'package:exam_app/features/home/home_subject/ui/screen/home_screen.dart';
 import 'package:exam_app/features/auth/signup/ui/screen/signup_screen.dart';
+import 'package:exam_app/features/home/main_layout/cubit/layout_cubit.dart';
+import 'package:exam_app/features/home/main_layout/screen/layout_screen.dart';
 import 'package:exam_app/features/splash_screen/spalsh_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app_routes.dart';
 
@@ -21,21 +23,17 @@ class RouteGenerator {
       case AppRoutes.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
 
-      case AppRoutes.verificationCode:
-        return MaterialPageRoute(
-          builder: (_) =>
-              const PlaceHolderWidget(screenName: 'Verification Code Screen'),
-        );
-
-      case AppRoutes.resetPassword:
-        return MaterialPageRoute(
-          builder: (_) =>
-              const PlaceHolderWidget(screenName: 'Reset Password Screen'),
-        );
       case AppRoutes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case AppRoutes.mainLayout:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => MainLayoutCubit(),
+            child: const MainLayout(),
+          ),
+        );
       case AppRoutes.home:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => HomeView());
 
       default:
         return MaterialPageRoute(

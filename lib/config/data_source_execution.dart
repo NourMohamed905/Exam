@@ -10,7 +10,7 @@ class DataSourceExecution {
       return SuccessBaseResponse<T>(data: response);
     } catch (error) {
       final failure = ErrorHandler.handle(error);
-      return ErrorBaseResponse<T>(errorMessage: failure.message);
+      return ErrorBaseResponse<T>(failure: failure);
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:exam_app/core/error/error_handler.dart';
+
 sealed class BaseResponse<T> {}
 
 class SuccessBaseResponse<T> extends BaseResponse<T> {
@@ -7,7 +9,7 @@ class SuccessBaseResponse<T> extends BaseResponse<T> {
 }
 
 class ErrorBaseResponse<T> extends BaseResponse<T> {
-  final String errorMessage;
+  final Failure failure;
 
-  ErrorBaseResponse({required this.errorMessage});
+  ErrorBaseResponse({required this.failure});
 }
