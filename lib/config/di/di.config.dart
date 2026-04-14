@@ -50,6 +50,23 @@ import '../../features/auth/signup/domain/repository/signup_repository.dart'
 import '../../features/auth/signup/domain/usecase/signup_use_case.dart'
     as _i685;
 import '../../features/auth/signup/ui/cubit/signup_view_model.dart' as _i60;
+import '../../features/home/home_subject/api/home_subject_api.dart' as _i378;
+import '../../features/home/home_subject/data/datasource/local/home_subject_local_contract.dart'
+    as _i513;
+import '../../features/home/home_subject/data/datasource/local/home_subject_local_impl.dart'
+    as _i78;
+import '../../features/home/home_subject/data/datasource/remote/home_subject_remote_contract.dart'
+    as _i731;
+import '../../features/home/home_subject/data/datasource/remote/home_subject_remote_impl.dart'
+    as _i239;
+import '../../features/home/home_subject/data/repository/home_subject_repo_impl.dart'
+    as _i1055;
+import '../../features/home/home_subject/domain/repository/home_subject_repo_contract.dart'
+    as _i394;
+import '../../features/home/home_subject/domain/usecase/get_subjects_use_case.dart'
+    as _i465;
+import '../../features/home/home_subject/ui/cubit/home_subject_view_model.dart'
+    as _i753;
 import '../data_source_execution.dart' as _i539;
 import '../dio/dio_module.dart' as _i977;
 
@@ -66,16 +83,35 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i140.LocalStorageService>(
       () => _i140.LocalStorageService(),
     );
+    gh.factory<_i513.HomeSubjectLocalContract>(
+      () => _i78.HomeSubjectLocalImpl(),
+    );
     gh.factory<_i506.AuthApi>(() => _i506.AuthApi(gh<_i361.Dio>()));
+    gh.factory<_i378.HomeSubjectApiService>(
+      () => _i378.HomeSubjectApiService(gh<_i361.Dio>()),
+    );
     gh.factory<_i853.LoginRemoteDataSourceContract>(
       () => _i660.LoginRemoteDatasourceImpl(
         gh<_i506.AuthApi>(),
         gh<_i539.DataSourceExecution>(),
       ),
     );
+    gh.factory<_i731.HomeSubjectRemoteContract>(
+      () => _i239.HomeSubjectRemoteImpl(
+        gh<_i378.HomeSubjectApiService>(),
+        gh<_i539.DataSourceExecution>(),
+      ),
+    );
     gh.factory<_i359.LoginRepoContract>(
       () => _i1001.LoginRepoImpl(
         remoteDataSource: gh<_i853.LoginRemoteDataSourceContract>(),
+      ),
+    );
+    gh.factory<_i394.HomeSubjectRepoContract>(
+      () => _i1055.HomeSubjectRepoImpl(
+        gh<_i731.HomeSubjectRemoteContract>(),
+        gh<_i513.HomeSubjectLocalContract>(),
+        gh<_i140.LocalStorageService>(),
       ),
     );
     gh.factory<_i79.LoginUseCase>(
@@ -95,6 +131,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i188.SignupRemoteDataSourceContract>(
       () => _i893.SignupRemoteDatasourceImpl(gh<_i506.AuthApi>()),
+    );
+    gh.factory<_i465.GetSubjectsUseCase>(
+      () => _i465.GetSubjectsUseCase(
+        repository: gh<_i394.HomeSubjectRepoContract>(),
+      ),
+    );
+    gh.factory<_i753.HomeSubjectViewModel>(
+      () => _i753.HomeSubjectViewModel(gh<_i465.GetSubjectsUseCase>()),
     );
     gh.factory<_i171.ForgetPassRepoContract>(
       () => _i813.ForgetRepoImpl(

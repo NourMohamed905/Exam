@@ -66,7 +66,7 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
         state.copyWith(
           forgetPasswordStateParam: state.forgetPasswordState.copyWith(
             isLoadingParam: false,
-            errorMessageParam: (response as ErrorBaseResponse).errorMessage,
+            errorMessageParam: (response as ErrorBaseResponse).failure.message,
           ),
         ),
       );
@@ -100,7 +100,7 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
         state.copyWith(
           verifyCodeStateParam: state.verifyCodeState.copyWith(
             isLoadingParam: false,
-            errorMessageParam: (response as ErrorBaseResponse).errorMessage,
+            errorMessageParam: (response as ErrorBaseResponse).failure.message,
           ),
         ),
       );
@@ -139,7 +139,7 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
         state.copyWith(
           resetPasswordStateParam: state.resetPasswordState.copyWith(
             isLoadingParam: false,
-            errorMessageParam: (response as ErrorBaseResponse).errorMessage,
+            errorMessageParam: (response as ErrorBaseResponse).failure.message,
           ),
         ),
       );

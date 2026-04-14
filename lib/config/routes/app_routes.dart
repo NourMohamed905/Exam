@@ -6,4 +6,5 @@ class AppRoutes {
   static const resetPassword = "/reset-password";
   static const home = "/home";
   static const splashScreen = "/splash-screen";
+  static const mainLayout = "/main-layout";
 }

@@ -51,7 +51,8 @@ class SignupViewModel extends Cubit<SignupState> {
   void _validate() {
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    final isValid = username.isNotEmpty &&
+    final isValid =
+        username.isNotEmpty &&
         email.isNotEmpty &&
         emailRegex.hasMatch(email) &&
         password.isNotEmpty &&
@@ -92,7 +93,10 @@ class SignupViewModel extends Cubit<SignupState> {
 
       case ErrorBaseResponse<SignupResponse>():
         emit(
-          state.copyWith(isLoading: false, errorMessage: response.errorMessage),
+          state.copyWith(
+            isLoading: false,
+            errorMessage: response.failure.message,
+          ),
         );
         break;
     }

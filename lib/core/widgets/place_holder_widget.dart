@@ -7,7 +7,7 @@ class PlaceHolderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(screenName)),
+      // appBar: AppBar(title: Text(screenName)),
       body: Center(child: Text('$screenName is not implemented yet')),
     );
   }

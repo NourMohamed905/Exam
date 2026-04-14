@@ -70,7 +70,10 @@ class LoginViewModel extends Cubit<LoginState> {
 
       case ErrorBaseResponse<LoginResponse>():
         emit(
-          state.copyWith(isLoading: false, errorMessage: response.errorMessage),
+          state.copyWith(
+            isLoading: false,
+            errorMessage: response.failure.message,
+          ),
         );
 
         break;
