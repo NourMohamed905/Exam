@@ -1,13 +1,18 @@
+import 'dart:io';
 import 'package:exam_app/config/di/di.dart';
 import 'package:exam_app/config/routes/app_routes.dart';
 import 'package:exam_app/config/routes/route_generator.dart';
 import 'package:exam_app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
-  configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
+  final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocumentsDir.path);
   runApp(const ExamApp());
 }
 
