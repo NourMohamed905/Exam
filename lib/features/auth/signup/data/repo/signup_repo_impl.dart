@@ -14,13 +14,14 @@ class SignupRepoImpl implements SignupRepoContract {
 
   @override
   Future<BaseResponse<SignupResponse>> signup(
-      SignupRequest signupRequest) async {
+    SignupRequest signupRequest,
+  ) async {
     try {
       final response = await remoteDataSource.signup(signupRequest.toDTO());
 
       if (response.user == null || response.token == null) {
         return ErrorBaseResponse<SignupResponse>(
-          errorMessage: "Invalid signup response",
+          failure: Failure(message: "Some Thing went wrong."),
         );
       }
 
@@ -33,7 +34,7 @@ class SignupRepoImpl implements SignupRepoContract {
     } catch (error) {
       final failure = ErrorHandler.handle(error);
 
-      return ErrorBaseResponse<SignupResponse>(errorMessage: failure.message);
+      return ErrorBaseResponse<SignupResponse>(failure: failure);
     }
   }
 }
