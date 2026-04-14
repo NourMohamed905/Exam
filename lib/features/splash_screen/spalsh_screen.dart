@@ -29,10 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final isLoggedIn = remember && token != null && token.isNotEmpty;
 
-    Navigator.pushReplacementNamed(
-      context,
-      isLoggedIn ? AppRoutes.home : AppRoutes.login,
-    );
+    if (isLoggedIn) {
+      Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
   }
 
   @override
