@@ -1,5 +1,6 @@
 class AppImages {
   static const String splashLogo = 'assets/lottie/exam.json';
+  static const String staticProfile = 'assets/icons/static.jpeg';
 }
 
 class AppSvgs {

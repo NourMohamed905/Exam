@@ -67,6 +67,19 @@ import '../../features/home/home_subject/domain/usecase/get_subjects_use_case.da
     as _i465;
 import '../../features/home/home_subject/ui/cubit/home_subject_view_model.dart'
     as _i753;
+import '../../features/profile/api/profile_api.dart' as _i403;
+import '../../features/profile/data/datasource/remote/profile_remote_datasource_contract.dart'
+    as _i142;
+import '../../features/profile/data/datasource/remote/profile_remote_datasource_impl.dart'
+    as _i230;
+import '../../features/profile/data/repository/profile_repo_impl.dart' as _i265;
+import '../../features/profile/domain/repository/profile_repo_contract.dart'
+    as _i722;
+import '../../features/profile/domain/usecase/get_user_info_usecase.dart'
+    as _i1063;
+import '../../features/profile/domain/usecase/update_profile_usecase.dart'
+    as _i550;
+import '../../features/profile/ui/cubit/profile_view_model.dart' as _i285;
 import '../data_source_execution.dart' as _i539;
 import '../dio/dio_module.dart' as _i977;
 
@@ -89,6 +102,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i506.AuthApi>(() => _i506.AuthApi(gh<_i361.Dio>()));
     gh.factory<_i378.HomeSubjectApiService>(
       () => _i378.HomeSubjectApiService(gh<_i361.Dio>()),
+    );
+    gh.factory<_i403.ProfileApiService>(
+      () => _i403.ProfileApiService(gh<_i361.Dio>()),
     );
     gh.factory<_i853.LoginRemoteDataSourceContract>(
       () => _i660.LoginRemoteDatasourceImpl(
@@ -129,12 +145,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i140.LocalStorageService>(),
       ),
     );
+    gh.factory<_i142.ProfileRemoteDatasourceContract>(
+      () => _i230.ProfileRemoteDatasourceImpl(
+        gh<_i403.ProfileApiService>(),
+        gh<_i539.DataSourceExecution>(),
+      ),
+    );
     gh.factory<_i188.SignupRemoteDataSourceContract>(
       () => _i893.SignupRemoteDatasourceImpl(gh<_i506.AuthApi>()),
     );
     gh.factory<_i465.GetSubjectsUseCase>(
       () => _i465.GetSubjectsUseCase(
         repository: gh<_i394.HomeSubjectRepoContract>(),
+      ),
+    );
+    gh.factory<_i722.ProfileRepoContract>(
+      () => _i265.ProfileRepoImpl(
+        gh<_i140.LocalStorageService>(),
+        gh<_i142.ProfileRemoteDatasourceContract>(),
       ),
     );
     gh.factory<_i753.HomeSubjectViewModel>(
@@ -152,6 +180,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i685.SignupUseCase>(
       () => _i685.SignupUseCase(contract: gh<_i192.SignupRepoContract>()),
+    );
+    gh.factory<_i1063.GetUserInfoUseCase>(
+      () => _i1063.GetUserInfoUseCase(gh<_i722.ProfileRepoContract>()),
+    );
+    gh.factory<_i550.UpdateProfileUseCase>(
+      () => _i550.UpdateProfileUseCase(gh<_i722.ProfileRepoContract>()),
+    );
+    gh.factory<_i285.ProfileViewModel>(
+      () => _i285.ProfileViewModel(
+        gh<_i1063.GetUserInfoUseCase>(),
+        gh<_i550.UpdateProfileUseCase>(),
+      ),
     );
     gh.factory<_i490.ForgetPasswordUseCase>(
       () => _i490.ForgetPasswordUseCase(gh<_i171.ForgetPassRepoContract>()),
