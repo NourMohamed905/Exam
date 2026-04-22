@@ -2,6 +2,7 @@ import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:exam_app/core/widgets/cached_network_image_widget.dart';
+import 'package:exam_app/features/exam/ui/screen/exam_list_screen.dart';
 import 'package:exam_app/features/home/home_subject/domain/entity/subject.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,10 @@ class SubjectItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(
-        //   context,
-        //   AppRoutes.examsScreen,
-        //   arguments: subject.id,
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ExamListScreen(subject: subject)),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
