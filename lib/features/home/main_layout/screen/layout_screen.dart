@@ -9,6 +9,9 @@ import 'package:exam_app/features/home/home_subject/ui/cubit/home_subject_Intent
 import 'package:exam_app/features/home/home_subject/ui/cubit/home_subject_view_model.dart';
 import 'package:exam_app/features/home/home_subject/ui/screen/home_screen.dart';
 import 'package:exam_app/features/home/main_layout/cubit/layout_cubit.dart';
+import 'package:exam_app/features/profile/ui/cubit/profile_intint.dart';
+import 'package:exam_app/features/profile/ui/cubit/profile_view_model.dart';
+import 'package:exam_app/features/profile/ui/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,7 +34,11 @@ class MainLayout extends StatelessWidget {
               ), //*replace with result screen
               PlaceHolderWidget(screenName: 'Result Screen'),
               //* replace with profile screen
-              PlaceHolderWidget(screenName: 'Profile Screen'),
+              BlocProvider<ProfileViewModel>(
+                create: (_) =>
+                    getIt<ProfileViewModel>()..onIntent(LoadProfileIntent()),
+                child: ProfileScreen(),
+              ),
             ],
           ),
 

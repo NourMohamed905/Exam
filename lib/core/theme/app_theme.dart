@@ -27,7 +27,7 @@ class AppTheme {
 
       floatingLabelBehavior: FloatingLabelBehavior.always,
 
-      hintStyle: getRegularStyle(color: AppColors.lightGray, fontSize: 14),
+      hintStyle: getRegularStyle(color: AppColors.black, fontSize: 14),
       errorStyle: getRegularStyle(color: AppColors.errorRed, fontSize: 12),
 
       enabledBorder: OutlineInputBorder(
