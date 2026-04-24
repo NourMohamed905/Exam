@@ -85,6 +85,8 @@ import '../../features/profile/data/datasource/remote/profile_remote_datasource_
 import '../../features/profile/data/repository/profile_repo_impl.dart' as _i265;
 import '../../features/profile/domain/repository/profile_repo_contract.dart'
     as _i722;
+import '../../features/profile/domain/usecase/change_pass_usecase.dart'
+    as _i136;
 import '../../features/profile/domain/usecase/get_user_info_usecase.dart'
     as _i1063;
 import '../../features/profile/domain/usecase/update_profile_usecase.dart'
@@ -168,6 +170,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i539.DataSourceExecution>(),
       ),
     );
+    gh.factory<_i904.ExamRepoContract>(
+      () => _i790.ExamRepoImpl(
+        remoteDataSource: gh<_i58.ExamRemoteDataSource>(),
+        localStorageService: gh<_i140.LocalStorageService>(),
+      ),
+    );
     gh.factory<_i188.SignupRemoteDataSourceContract>(
       () => _i893.SignupRemoteDatasourceImpl(gh<_i506.AuthApi>()),
     );
@@ -201,11 +209,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i685.SignupUseCase>(
       () => _i685.SignupUseCase(contract: gh<_i192.SignupRepoContract>()),
     );
+    gh.factory<_i136.ChangePasswordUseCase>(
+      () => _i136.ChangePasswordUseCase(gh<_i722.ProfileRepoContract>()),
+    );
     gh.factory<_i1063.GetUserInfoUseCase>(
       () => _i1063.GetUserInfoUseCase(gh<_i722.ProfileRepoContract>()),
     );
     gh.factory<_i550.UpdateProfileUseCase>(
       () => _i550.UpdateProfileUseCase(gh<_i722.ProfileRepoContract>()),
+    );
+    gh.factory<_i858.ExamViewModel>(
+      () => _i858.ExamViewModel(gh<_i778.GetExamDetailsUseCase>()),
     );
     gh.factory<_i285.ProfileViewModel>(
       () => _i285.ProfileViewModel(

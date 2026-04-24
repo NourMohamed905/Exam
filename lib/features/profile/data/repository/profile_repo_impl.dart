@@ -1,7 +1,9 @@
 import 'package:exam_app/config/base_response/base_response.dart';
 import 'package:exam_app/core/storage/local_storage.dart';
 import 'package:exam_app/features/profile/data/datasource/remote/profile_remote_datasource_contract.dart';
+import 'package:exam_app/features/profile/domain/entity/change_pass_response.dart';
 import 'package:exam_app/features/profile/domain/entity/get_user_info_response.dart';
+import 'package:exam_app/features/profile/domain/entity/request/change_pass_request.dart';
 import 'package:exam_app/features/profile/domain/entity/request/update_profile_request.dart';
 import 'package:exam_app/features/profile/domain/entity/update_profile_response.dart';
 import 'package:exam_app/features/profile/domain/repository/profile_repo_contract.dart';
@@ -37,6 +39,25 @@ class ProfileRepoImpl implements ProfileRepoContract {
       case SuccessBaseResponse<UpdateProfileResponse>():
         return SuccessBaseResponse(data: response.data);
       case ErrorBaseResponse<UpdateProfileResponse>():
+        return ErrorBaseResponse(failure: response.failure);
+    }
+  }
+
+  @override
+  Future<BaseResponse<ChangePasswordResponseEntity>> changePassword(
+    ChangePasswordRequestEntity request,
+  ) async {
+    final token = await localStorageService.getToken();
+
+    var response = await remoteDataSource.changePassword(
+      token.toString(),
+      request,
+    );
+
+    switch (response) {
+      case SuccessBaseResponse<ChangePasswordResponseEntity>():
+        return SuccessBaseResponse(data: response.data);
+      case ErrorBaseResponse<ChangePasswordResponseEntity>():
         return ErrorBaseResponse(failure: response.failure);
     }
   }

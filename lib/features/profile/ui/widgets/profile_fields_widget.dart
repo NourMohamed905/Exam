@@ -3,6 +3,7 @@ import 'package:exam_app/core/resources/style_manager.dart';
 import 'package:exam_app/core/resources/values_manager.dart';
 import 'package:exam_app/core/theme/app_colors.dart';
 import 'package:exam_app/core/widgets/app_text_field.dart';
+import 'package:exam_app/features/profile/change_password_ui/screens/change_password_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileFieldsWidget extends StatelessWidget {
@@ -12,6 +13,7 @@ class ProfileFieldsWidget extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController phoneController;
   final dynamic hintState;
+
   const ProfileFieldsWidget({
     super.key,
     required this.usernameController,
@@ -30,7 +32,8 @@ class ProfileFieldsWidget extends StatelessWidget {
         CustomTextFormField(
           controller: usernameController,
           hintText:
-              hintState.userData?.user?.username ?? ProfileConstants.username,
+              hintState.userData?.user?.username ??
+              ProfileConstants.username,
           labelText: ProfileConstants.username,
         ),
 
@@ -61,24 +64,28 @@ class ProfileFieldsWidget extends StatelessWidget {
 
         CustomTextFormField(
           controller: emailController,
-          hintText: hintState.userData?.user?.email ?? ProfileConstants.email,
+          hintText:
+              hintState.userData?.user?.email ?? ProfileConstants.email,
           labelText: ProfileConstants.email,
         ),
+
         CustomTextFormField(
           labelText: ProfileConstants.password,
-          suffixIcon: _buildStars(6),
+          suffixIcon: _buildStars(context, 6),
           readOnly: true,
         ),
+
         CustomTextFormField(
           controller: phoneController,
-          hintText: hintState.userData?.user?.phone ?? ProfileConstants.phone,
+          hintText:
+              hintState.userData?.user?.phone ?? ProfileConstants.phone,
           labelText: ProfileConstants.phone,
         ),
       ],
     );
   }
 
-  Widget _buildStars(int count) {
+  Widget _buildStars(BuildContext context, int count) {
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p16),
       child: Row(
@@ -94,9 +101,15 @@ class ProfileFieldsWidget extends StatelessWidget {
               ),
             ),
           ),
+
           InkWell(
             onTap: () {
-              //*todo: navigate to change password screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ChangePasswordScreen(),
+                ),
+              );
             },
             child: Text(
               ProfileConstants.change,
