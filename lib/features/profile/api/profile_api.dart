@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:exam_app/core/constants/api_param.dart';
 import 'package:exam_app/core/constants/app_endpoints.dart';
-import 'package:exam_app/features/home/home_subject/data/model/subject_response_dto.dart';
+import 'package:exam_app/features/profile/data/model/change_pass_response_dto.dart';
 import 'package:exam_app/features/profile/data/model/get_user_info_response_dto.dart';
 import 'package:exam_app/features/profile/data/model/request/change_pass_request_dto.dart';
 import 'package:exam_app/features/profile/data/model/request/update_profile_request_dto.dart';

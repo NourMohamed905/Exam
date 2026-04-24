@@ -50,4 +50,14 @@ class AuthConstants {
 
   // --- Success messages ---
   static const String loginSuccess = "Login successful";
+
+  // --- Change Password ---
+  static const String changePasswordTitle = "Reset password";
+  static const String updatePassword = "Update";
+  static const String currentPassword = "Current password";
+  static const String enterCurrentPassword = "Current password";
+  static const String enterNewPassword = "New password";
+  static const String enterConfirmPassword = "Confirm password";
+  static const String invalidPassword = "Invalid password";
+  static const String passwordChangedSuccess = "Password changed successfully";
 }
