@@ -34,13 +34,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    usernameController = TextEditingController();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-    emailController = TextEditingController();
-    phoneController = TextEditingController();
+
+    usernameController = TextEditingController()..addListener(_onChanged);
+    firstNameController = TextEditingController()..addListener(_onChanged);
+    lastNameController = TextEditingController()..addListener(_onChanged);
+    emailController = TextEditingController()..addListener(_onChanged);
+    phoneController = TextEditingController()..addListener(_onChanged);
 
     context.read<ProfileViewModel>().onIntent(LoadProfileIntent());
+  }
+
+  void _onChanged() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  bool isChanged(ProfileState state) {
+    final user = state.userData?.user;
+
+    return usernameController.text != (user?.username ?? '') ||
+        firstNameController.text != (user?.firstName ?? '') ||
+        lastNameController.text != (user?.lastName ?? '') ||
+        emailController.text != (user?.email ?? '') ||
+        phoneController.text != (user?.phone ?? '');
   }
 
   @override
@@ -49,15 +74,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       listener: (context, state) {
         if (state.userData != null && !isInitialized) {
           final user = state.userData!.user;
+
           usernameController.text = user!.username ?? '';
           firstNameController.text = user.firstName ?? '';
           lastNameController.text = user.lastName ?? '';
           emailController.text = user.email ?? '';
           phoneController.text = user.phone ?? '';
+
           isInitialized = true;
         }
 
-        /// success
         if (state.successMessage != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -67,7 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
         }
 
-        /// error
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -83,10 +108,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
         }
       },
+
       builder: (context, state) {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
         }
+
+        final changed = isChanged(state);
 
         return Scaffold(
           appBar: AppBar(
@@ -101,6 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             automaticallyImplyLeading: false,
           ),
+
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -132,12 +161,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       hintState: state,
                     ),
 
-                    /// Username
                     const SizedBox(height: AppSize.s50),
 
-                    /// Update Button
+                    /// UPDATE BUTTON
                     ElevatedButton(
-                      onPressed: state.isUpdating
+                      onPressed: (!changed || state.isUpdating)
                           ? null
                           : () {
                               context.read<ProfileViewModel>().onIntent(
@@ -152,25 +180,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               );
                             },
+
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: (!changed || state.isUpdating)
+                            ? Colors.grey
+                            : AppColors.primaryBlue,
+                      ),
+
                       child: state.isUpdating
-                          ? SizedBox(
-                              height: AppSize.s20,
-                              width: AppSize.s20,
-                              child: const CircularProgressIndicator(
-                                color: AppColors.lightGray,
-                                strokeWidth: AppSize.s2,
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
                               ),
                             )
                           : const Text(ProfileConstants.update),
                     ),
-                    SizedBox(height: AppSize.s16),
 
+                    const SizedBox(height: AppSize.s16),
+
+                    /// LOGOUT
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.errorRed,
                       ),
                       onPressed: () {
-                        _buildAlert();
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.info,
+                          title: ProfileConstants.signOut,
+                          text: ProfileConstants.signOutConfirmation,
+                          confirmBtnText: ProfileConstants.signOut,
+                          cancelBtnText: ProfileConstants.cancel,
+                          showCancelBtn: true,
+                          confirmBtnColor: Colors.red,
+                          barrierDismissible: false,
+                          animType: QuickAlertAnimType.scale,
+                          onConfirmBtnTap: () {
+                            Navigator.pop(context);
+                            context.read<ProfileViewModel>().onIntent(
+                              LogoutIntent(),
+                            );
+                          },
+                        );
                       },
                       child: const Text(ProfileConstants.logout),
                     ),
@@ -180,26 +234,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         );
-      },
-    );
-  }
-
-  Future<dynamic> _buildAlert() {
-    return QuickAlert.show(
-      context: context,
-      type: QuickAlertType.info,
-      title: ProfileConstants.signOut,
-      text: ProfileConstants.signOutConfirmation,
-      confirmBtnText: ProfileConstants.signOut,
-      cancelBtnText: ProfileConstants.cancel,
-      showCancelBtn: true,
-      confirmBtnColor: Colors.red,
-      barrierDismissible: false,
-      animType: QuickAlertAnimType.scale,
-
-      onConfirmBtnTap: () {
-        Navigator.pop(context);
-        context.read<ProfileViewModel>().onIntent(LogoutIntent());
       },
     );
   }

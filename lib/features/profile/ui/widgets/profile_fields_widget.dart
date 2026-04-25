@@ -32,8 +32,7 @@ class ProfileFieldsWidget extends StatelessWidget {
         CustomTextFormField(
           controller: usernameController,
           hintText:
-              hintState.userData?.user?.username ??
-              ProfileConstants.username,
+              hintState.userData?.user?.username ?? ProfileConstants.username,
           labelText: ProfileConstants.username,
         ),
 
@@ -64,8 +63,7 @@ class ProfileFieldsWidget extends StatelessWidget {
 
         CustomTextFormField(
           controller: emailController,
-          hintText:
-              hintState.userData?.user?.email ?? ProfileConstants.email,
+          hintText: hintState.userData?.user?.email ?? ProfileConstants.email,
           labelText: ProfileConstants.email,
         ),
 
@@ -77,8 +75,7 @@ class ProfileFieldsWidget extends StatelessWidget {
 
         CustomTextFormField(
           controller: phoneController,
-          hintText:
-              hintState.userData?.user?.phone ?? ProfileConstants.phone,
+          hintText: hintState.userData?.user?.phone ?? ProfileConstants.phone,
           labelText: ProfileConstants.phone,
         ),
       ],
@@ -106,9 +103,7 @@ class ProfileFieldsWidget extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const ChangePasswordScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const ChangePasswordScreen()),
               );
             },
             child: Text(
