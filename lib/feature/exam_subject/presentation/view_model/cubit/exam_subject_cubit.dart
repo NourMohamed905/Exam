@@ -1,0 +1,38 @@
+import 'package:exam_app/config/base_response/base_response.dart';
+import 'package:exam_app/feature/exam_subject/domain/models/exam_subject_model.dart';
+import 'package:exam_app/feature/exam_subject/domain/use_case/exam_subject_use_case.dart';
+import 'package:exam_app/feature/exam_subject/presentation/view_model/states/exam_subject_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
+@injectable
+class ExamSubjectCubit extends Cubit<ExamSubjectState> {
+  final ExamSubjectUseCase _examSubjectUseCase;
+
+  ExamSubjectCubit(this._examSubjectUseCase) : super(const ExamSubjectState());
+
+  Future<void> getExams(String subjectId) async {
+    emit(state.copyWith(status: ExamSubjectStatus.loading));
+
+    final response = await _examSubjectUseCase(subjectId: subjectId);
+
+    switch (response) {
+      case SuccessResponse<List<ExamSubjectModel>>():
+        emit(
+          state.copyWith(
+            status: ExamSubjectStatus.success,
+            exams: response.data,
+          ),
+        );
+        break;
+      case ErrorResponse<List<ExamSubjectModel>>():
+        emit(
+          state.copyWith(
+            status: ExamSubjectStatus.error,
+            errorMessage: response.errorMessage,
+          ),
+        );
+        break;
+    }
+  }
+}
