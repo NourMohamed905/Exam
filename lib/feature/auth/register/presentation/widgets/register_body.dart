@@ -53,7 +53,7 @@ class RegisterBody extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      height: 200,
+      height: 240,
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
