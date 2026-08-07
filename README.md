@@ -1,5 +1,9 @@
 # Exam App
 
+<p align="center">
+  <img src="screenshots/cover.png" alt="Exam App Cover" width="900"/>
+</p>
+
 A Flutter-based mobile application that enables users to practice exams across different subjects, track their performance, and review previous attempts through a clean and interactive user experience.
 
 ## Features
@@ -108,7 +112,7 @@ lib
 ### Results
 
 <p align="center">
-  <img src="screenshots/resulttapp.png" width="240"/>
+  <img src="screenshots/resulttap.png" width="240"/>
 </p>
 
 ### Profile
