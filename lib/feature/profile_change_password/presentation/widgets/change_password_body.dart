@@ -2,6 +2,7 @@ import 'package:exam_app/core/constant/app_text_constants.dart';
 import 'package:exam_app/core/utils/app_validation.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/widgets/custom_elevated_button.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
 import 'package:exam_app/core/utils/widgets/custom_textfield.dart';
 import 'package:exam_app/feature/profile_change_password/presentation/view_model/change_password_cubit.dart';
 import 'package:exam_app/feature/profile_change_password/presentation/view_model/change_password_intent.dart';
@@ -57,16 +58,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
     final confirmPassword = _confirmPasswordController.text.trim();
 
     if (newPassword == oldPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(AppTextConstants.newPasswordSameAsOld),
-          backgroundColor: ColorManager.errorColor,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      );
+      CustomSnackBar.error(context, AppTextConstants.newPasswordSameAsOld);
       return;
     }
 
@@ -85,32 +77,15 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
         if (state.status == ChangePasswordStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.result?.message ??
-                    AppTextConstants.passwordChangedSuccess,
-              ),
-              backgroundColor: ColorManager.successColor,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
+          CustomSnackBar.success(
+            context,
+            state.result?.message ?? AppTextConstants.passwordChangedSuccess,
           );
           Navigator.of(context).pop();
         } else if (state.status == ChangePasswordStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.errorMessage ?? AppTextConstants.passwordChangedError,
-              ),
-              backgroundColor: ColorManager.errorColor,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
+          CustomSnackBar.error(
+            context,
+            state.errorMessage ?? AppTextConstants.passwordChangedError,
           );
         }
       },

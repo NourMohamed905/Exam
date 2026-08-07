@@ -2,9 +2,11 @@ import 'package:exam_app/core/utils/app_validation.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
 import 'package:exam_app/core/utils/widgets/custom_elevated_button.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../Bloc/login_bloc.dart';
 import '../Bloc/login_event.dart';
@@ -40,24 +42,37 @@ class _LoginScreenState extends State<LoginScreen> {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state.status == LoginStatus.success) {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.explore,
-                (route) => false,
-              );
+              Future.microtask(() async {
+                await QuickAlert.show(
+                  context: context,
+                  type: QuickAlertType.success,
+                  title: 'Login Successful',
+                  confirmBtnText: 'Continue',
+                  confirmBtnColor: ColorManager.primeColor,
+                  barrierDismissible: false,
+                  showCancelBtn: false,
+                );
+                if (!mounted) return;
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.explore,
+                  (route) => false,
+                );
+              });
             }
 
             if (state.status == LoginStatus.error) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? 'An error occurred'),
-                  backgroundColor: ColorManager.errorColor,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              );
+              final errorMessage = state.errorMessage ?? 'An error occurred';
+              final isNetworkIssue =
+                  errorMessage.toLowerCase().contains('internet') ||
+                  errorMessage.toLowerCase().contains('connection') ||
+                  errorMessage.toLowerCase().contains('network');
+
+              if (isNetworkIssue) {
+                CustomSnackBar.networkError(context, errorMessage);
+              } else {
+                CustomSnackBar.error(context, errorMessage);
+              }
             }
           },
           child: SingleChildScrollView(

@@ -2,6 +2,7 @@ import 'package:exam_app/core/utils/app_validation.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
 import 'package:exam_app/core/utils/widgets/custom_elevated_button.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/view_model/cubit/forget_password_cubit.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/view_model/states/forget_password_state.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +27,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             );
           } else if (state.status == ForgetPasswordStatus.error &&
               state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage!),
-                backgroundColor: ColorManager.errorColor,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            CustomSnackBar.error(context, state.errorMessage!);
           }
         },
         builder: (context, state) {

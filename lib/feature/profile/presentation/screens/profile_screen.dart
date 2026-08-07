@@ -2,6 +2,8 @@ import 'package:exam_app/config/di/di.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
 import 'package:exam_app/core/utils/app_validation.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:exam_app/feature/profile/presentation/view_model/cubit/profile_cubit.dart';
 import 'package:exam_app/feature/profile/presentation/view_model/states/profile_state.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,101 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, this.onBack});
 
   final VoidCallback? onBack;
+
+  Future<void> _showLogoutDialog(
+    BuildContext context,
+    ProfileCubit cubit,
+  ) async {
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (dialogContext) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: ColorManager.primeColor.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.logout_rounded,
+                  size: 32,
+                  color: ColorManager.primeColor,
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Logout',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ColorManager.blackColor,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Are you sure you want to log out of your account?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ColorManager.greyColor,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        side: const BorderSide(color: ColorManager.primeColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(dialogContext).pop(false),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: ColorManager.primeColor),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorManager.primeColor,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(dialogContext).pop(true),
+                      child: const Text('Logout'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (shouldLogout ?? false) {
+      await cubit.logout();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +124,11 @@ class ProfileScreen extends StatelessWidget {
             }
 
             if (state.updateSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Profile updated successfully'),
-                  backgroundColor: Colors.green,
-                ),
-              );
+              CustomSnackBar.success(context, 'Profile updated successfully');
             }
 
             if (state.updateErrorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.updateErrorMessage!),
-                  backgroundColor: ColorManager.errorColor,
-                ),
-              );
+              CustomSnackBar.error(context, state.updateErrorMessage!);
             }
 
             if (state.logoutSuccess) {
@@ -54,11 +141,7 @@ class ProfileScreen extends StatelessWidget {
             final cubit = context.read<ProfileCubit>();
 
             if (state.status == ProfileStatus.loading) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: ColorManager.primeColor,
-                ),
-              );
+              return const Center(child: LoadingAnimation());
             }
 
             if (state.status == ProfileStatus.error &&
@@ -109,10 +192,7 @@ class ProfileScreen extends StatelessWidget {
                               ? const SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
+                                  child: LoadingAnimation(size: 20),
                                 )
                               : const Icon(
                                   Icons.logout_rounded,
@@ -121,7 +201,9 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                           onPressed: state.isLoggingOut
                               ? null
-                              : () => cubit.logout(),
+                              : () {
+                                  _showLogoutDialog(context, cubit);
+                                },
                         ),
                       ),
                     ),
@@ -299,10 +381,7 @@ class ProfileScreen extends StatelessWidget {
                                   ? const SizedBox(
                                       width: 24,
                                       height: 24,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 3,
-                                        color: Colors.white,
-                                      ),
+                                      child: LoadingAnimation(size: 24),
                                     )
                                   : const Text(
                                       'Update Profile',

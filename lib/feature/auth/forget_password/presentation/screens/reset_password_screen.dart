@@ -2,6 +2,7 @@ import 'package:exam_app/core/utils/app_validation.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
 import 'package:exam_app/core/utils/widgets/custom_elevated_button.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/view_model/cubit/reset_password_cubit.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/view_model/states/reset_password_state.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +27,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
         listener: (context, state) {
           if (state.status == ResetPasswordStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Password Reset Successfully!"),
-                backgroundColor: Colors.green,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            CustomSnackBar.success(context, 'Password Reset Successfully!');
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRoutes.login,
@@ -41,13 +36,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           }
           if (state.status == ResetPasswordStatus.error &&
               state.errorMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage!),
-                backgroundColor: ColorManager.errorColor,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            CustomSnackBar.error(context, state.errorMessage!);
           }
         },
         builder: (context, state) {

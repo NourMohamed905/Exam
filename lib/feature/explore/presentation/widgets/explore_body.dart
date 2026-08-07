@@ -5,6 +5,8 @@ import 'package:exam_app/feature/explore/presentation/view_model/explore_cubit.d
 import 'package:exam_app/feature/explore/presentation/view_model/explore_states.dart';
 import 'package:exam_app/feature/explore/presentation/widgets/search_text_field.dart';
 import 'package:exam_app/feature/explore/presentation/widgets/subject_card.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,9 +21,7 @@ class ExplorePageBody extends StatelessWidget {
       listenWhen: (prev, curr) => prev.errorMessage != curr.errorMessage,
       listener: (context, state) {
         if (state.errorMessage != null) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+          CustomSnackBar.error(context, state.errorMessage!);
         }
       },
       builder: (context, state) {
@@ -158,11 +158,7 @@ class ExplorePageBody extends StatelessWidget {
 
             if (state.status == ExploreStatus.loading)
               const SliverFillRemaining(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: ColorManager.primeColor,
-                  ),
-                ),
+                child: Center(child: LoadingAnimation()),
               )
             else if (state.subjects == null || state.subjects!.isEmpty)
               SliverFillRemaining(

@@ -1,3 +1,4 @@
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/color_manager.dart';
@@ -19,12 +20,7 @@ class ResultsScreen extends StatelessWidget {
         builder: (context, state) {
           switch (state.status) {
             case ResultsStatus.loading:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: ColorManager.primeColor,
-                  strokeWidth: 3,
-                ),
-              );
+              return const Center(child: LoadingAnimation());
             case ResultsStatus.error:
               return Center(
                 child: Padding(

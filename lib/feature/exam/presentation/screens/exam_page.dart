@@ -1,5 +1,6 @@
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart' hide RadioGroup;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/widgets/radio_group.dart';
@@ -132,11 +133,7 @@ class _ExamPageState extends State<ExamPage> {
           child: BlocBuilder<ExamBloc, ExamState>(
             builder: (context, state) {
               if (state.status == ExamStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorManager.primeColor,
-                  ),
-                );
+                return const Center(child: LoadingAnimation());
               }
 
               if (state.status == ExamStatus.error &&

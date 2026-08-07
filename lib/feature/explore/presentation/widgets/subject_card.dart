@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:exam_app/core/constant/app_text_constants.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/feature/explore/domain/model/subject_entity.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 
 class SubjectCard extends StatelessWidget {
@@ -72,16 +73,6 @@ class SubjectCard extends StatelessWidget {
                         imageUrl: iconUrl,
                         height: 32,
                         width: 32,
-                        placeholder: (_, __) => const SizedBox(
-                          height: 32,
-                          width: 32,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
                         errorWidget: (_, __, ___) => const Icon(
                           Icons.book_rounded,
                           color: Colors.white,

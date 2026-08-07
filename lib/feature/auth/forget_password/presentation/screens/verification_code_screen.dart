@@ -5,6 +5,7 @@ import 'package:exam_app/feature/auth/forget_password/presentation/view_model/st
 import 'package:exam_app/feature/auth/forget_password/presentation/widgets/custom_invalid_code.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/widgets/custom_pin_input.dart';
 import 'package:exam_app/feature/auth/forget_password/presentation/widgets/custom_resend_row.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,11 +67,7 @@ class VerificationCodeScreen extends StatelessWidget {
                         ),
                       const SizedBox(height: 32),
                       if (state.status == VerificationStatus.loading)
-                        const Center(
-                          child: CircularProgressIndicator(
-                            color: ColorManager.primeColor,
-                          ),
-                        )
+                        const Center(child: LoadingAnimation())
                       else
                         CustomResendRow(onTap: () {}),
                     ],

@@ -2,6 +2,7 @@ import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/feature/exam_subject/presentation/view_model/cubit/exam_subject_cubit.dart';
 import 'package:exam_app/feature/exam_subject/presentation/view_model/states/exam_subject_state.dart';
 import 'package:exam_app/feature/exam_subject/presentation/widgets/custom_exam_card.dart';
+import 'package:exam_app/core/utils/widgets/loading_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,11 +22,7 @@ class SubjectExamScreen extends StatelessWidget {
               switch (state.status) {
                 case ExamSubjectStatus.loading:
                   return const SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: ColorManager.primeColor,
-                      ),
-                    ),
+                    child: Center(child: LoadingAnimation()),
                   );
                 case ExamSubjectStatus.error:
                   return SliverFillRemaining(

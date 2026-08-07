@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:exam_app/config/di/di.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/feature/explore/presentation/view_model/explore_cubit.dart';
@@ -87,71 +89,90 @@ class _FloatingNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-      child: Container(
-        height: 68,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          color: ColorManager.whiteColor,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: ColorManager.primeColor.withValues(alpha: 0.06),
-              blurRadius: 24,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Row(
-          children: List.generate(items.length, (i) {
-            final selected = i == currentIndex;
-            final (outlined, filled, label) = items[i];
-            return Expanded(
-              child: GestureDetector(
-                onTap: () => onTap(i),
-                behavior: HitTestBehavior.opaque,
-                child: AnimatedContainer(
-                  height: 40,
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOut,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? ColorManager.primeColor.withValues(alpha: 0.1)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        selected ? filled : outlined,
-                        color: selected
-                            ? ColorManager.primeColor
-                            : ColorManager.greyColor,
-                        size: 24,
-                      ),
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 220),
-                        child: selected
-                            ? Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  label,
-                                  style: const TextStyle(
-                                    color: ColorManager.primeColor,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                    ],
-                  ),
-                ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            height: 68,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(
+                255,
+                236,
+                241,
+                253,
+              ).withValues(alpha: 0.50),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: const Color.fromARGB(
+                  255,
+                  248,
+                  247,
+                  255,
+                ).withValues(alpha: 0.45),
               ),
-            );
-          }),
+              boxShadow: [
+                BoxShadow(
+                  color: ColorManager.primeColor.withValues(alpha: 0.08),
+                  blurRadius: 22,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Row(
+              children: List.generate(items.length, (i) {
+                final selected = i == currentIndex;
+                final (outlined, filled, label) = items[i];
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () => onTap(i),
+                    behavior: HitTestBehavior.opaque,
+                    child: AnimatedContainer(
+                      height: 40,
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOut,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: selected
+                            ? ColorManager.primeColor.withValues(alpha: 0.1)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            selected ? filled : outlined,
+                            color: selected
+                                ? ColorManager.primeColor
+                                : ColorManager.greyColor,
+                            size: 24,
+                          ),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 220),
+                            child: selected
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      label,
+                                      style: const TextStyle(
+                                        color: ColorManager.primeColor,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
         ),
       ),
     );

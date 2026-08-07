@@ -1,6 +1,7 @@
 import 'package:exam_app/core/constant/app_text_constants.dart';
 import 'package:exam_app/core/utils/color_manager.dart';
 import 'package:exam_app/core/utils/router/app_routes.dart';
+import 'package:exam_app/core/utils/widgets/custom_snack_bar.dart';
 import 'package:exam_app/feature/auth/register/presentation/viewModel/register_cubit.dart';
 import 'package:exam_app/feature/auth/register/presentation/viewModel/register_state.dart';
 import 'package:exam_app/feature/auth/register/presentation/widgets/register_form.dart';
@@ -16,24 +17,23 @@ class RegisterBody extends StatelessWidget {
       listenWhen: (prev, curr) => prev.status != curr.status,
       listener: (context, state) {
         if (state.status == RegisterStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(AppTextConstants.signupSuccess),
-              backgroundColor: Colors.green,
-            ),
-          );
+          CustomSnackBar.success(context, AppTextConstants.signupSuccess);
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil(AppRoutes.explore, (route) => false);
+          ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
         } else if (state.status == RegisterStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.errorMessage ?? AppTextConstants.genericError,
-              ),
-              backgroundColor: ColorManager.errorColor,
-            ),
-          );
+          final errorMessage =
+              state.errorMessage ?? AppTextConstants.genericError;
+          final isNetworkIssue =
+              errorMessage.toLowerCase().contains('internet') ||
+              errorMessage.toLowerCase().contains('connection') ||
+              errorMessage.toLowerCase().contains('network');
+
+          if (isNetworkIssue) {
+            CustomSnackBar.networkError(context, errorMessage);
+          } else {
+            CustomSnackBar.error(context, errorMessage);
+          }
         }
       },
       child: SingleChildScrollView(
