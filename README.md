@@ -262,7 +262,7 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 📧 <a href="mailto:omar3meen11@gmail.com">omar3meen11@gmail.com</a>
 
-📱 01031430691
+📱 +201031430691
 
 </td>
 
@@ -286,9 +286,9 @@ flutter pub run build_runner build --delete-conflicting-outputs
 </a>
 </p>
 
-📧 <a href="mailto:yassmenabdallah76@gmail.com">yassmenabdallah76@gmail.com</a>
+<a href="mailto:yassmenabdallah76@gmail.com">yassmenabdallah76@gmail.com</a>
 
-📱 Coming Soon
+📱 +20155188312
 
 </td>
 
